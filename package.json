@@ -7,10 +7,10 @@
 		"naughty-list": "dist/bin/naughty-list/main.js"
 	},
 	"main": "./dist/lib/naughty-list/index.js",
-	"types": "./dist/lib/types/index.d.ts",
+	"types": "./dist/lib/naughty-list/types/index.d.ts",
 	"exports": {
 		".": {
-			"types": "./dist/lib/types/index.d.ts",
+			"types": "./dist/lib/naughty-list/types/index.d.ts",
 			"import": "./dist/lib/naughty-list/index.js"
 		}
 	},
