@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/lib/naughty-list/types"
+  },
+  "files": ["./src/lib/index.ts"]
+}

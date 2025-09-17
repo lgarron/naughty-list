@@ -45,3 +45,11 @@ bun x naughty-list
 # npm
 npx naughty-list
 ```
+
+### As a library
+
+```js
+import { sweep } from "naughty-list";
+
+await sweep({ /* options */});
+```

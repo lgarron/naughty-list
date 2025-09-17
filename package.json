@@ -6,6 +6,14 @@
 	"bin": {
 		"naughty-list": "dist/bin/naughty-list/main.js"
 	},
+	"main": "./dist/lib/naughty-list/index.js",
+	"types": "./dist/lib/types/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/lib/types/index.d.ts",
+			"import": "./dist/lib/naughty-list/index.js"
+		}
+	},
 	"dependencies": {
 		"cmd-ts-too": "^0.15.3",
 		"ergonomic-date": "^0.1.1",

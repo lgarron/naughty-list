@@ -1,10 +1,17 @@
 .PHONY: build
-build: setup
-	bun run ./script/build.ts
+build: build-js build-types
+
+.PHONY: build-js
+build-js:
+	bun run ./script/build-js.ts
+
+.PHONY: build-types
+build-types:
+	bun x typescript --project ./tsconfig.build-types.json
 
 .PHONY: run
 run: setup
-	bun run ./src/main.ts
+	bun run ./src/bin/main.ts
 
 .PHONY: lint
 lint: lint-biome lint-tsc
@@ -15,7 +22,7 @@ lint-biome: setup
 
 .PHONY: lint-tsc
 lint-tsc: setup
-	bun x typescript --project .
+	bun x typescript --noEmit --project .
 
 .PHONY: format
 format: setup
