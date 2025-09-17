@@ -1,0 +1,112 @@
+#!/usr/bin/env -S bun run --
+
+import("./lockfile");
+
+import { default as assert } from "node:assert";
+import { readdir, readFile } from "node:fs/promises";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { exit } from "node:process";
+import { binary, command, oneOf, option, optional, run } from "cmd-ts-too";
+import json5 from "json5";
+import { validate } from "jsonschema";
+import trash from "trash";
+import { xdgConfig } from "xdg-basedir";
+import { NAUGHTY_LIST } from "./binary-name";
+import type { NaughtyListConfig } from "./schema";
+import { default as schema } from "./schema.json" with { type: "json" };
+import { CounterLog } from "./vendor/CounterLog";
+
+// Workaround for bad exports in `json5`.
+const { parse } = json5;
+
+const ON_UNKNOWN_BEHAVIOURS = [
+  "error-and-continue",
+  "error-and-abort",
+  "warn",
+  "ignore",
+] as const;
+const ON_UNKNOWN_DEFAULT_BEHAVIOUR: (typeof ON_UNKNOWN_BEHAVIOURS)[number] =
+  "error-and-continue";
+
+const app = command({
+  name: "naughty-list",
+  args: {
+    onUnknown: option({
+      description: `Output format. One of: ${ON_UNKNOWN_BEHAVIOURS.join(", ")} (default: ${ON_UNKNOWN_DEFAULT_BEHAVIOUR})`,
+      type: optional(oneOf(ON_UNKNOWN_BEHAVIOURS)),
+      long: "on-unknown",
+    }),
+  },
+  handler: async ({ onUnknown: onUnknownRaw }) => {
+    // TODO: handle the default at parse-time.
+    const onUnknown = onUnknownRaw ?? ON_UNKNOWN_DEFAULT_BEHAVIOUR;
+
+    assert(xdgConfig);
+    const configPath = join(xdgConfig, NAUGHTY_LIST, `${NAUGHTY_LIST}.json5`);
+
+    const config: NaughtyListConfig = await (async () => {
+      const config = parse(await readFile(configPath, "utf-8"));
+      {
+        const validationResult = validate(config, schema);
+        if (!validationResult.valid) {
+          console.error(validationResult.toString());
+          exit(1);
+        }
+      }
+      // TODO: is there a way to return only the validated subset?
+      return config;
+    })();
+
+    const toIgnore = new Set(config.paths.ignore);
+    const toDelete = new Set(config.paths.delete);
+
+    let exitCode = 0;
+    const counterLog = new CounterLog();
+
+    // We have to manually iterate through all the home dir entries, because `node`'s built-in `glob()` is super borked: https://github.com/nodejs/node/issues/56321
+    for (const path of await readdir(homedir())) {
+      if (!path.startsWith(".")) {
+        continue;
+      }
+
+      if (toIgnore.has(path)) {
+        console.info(`Ignoring: ${path}`);
+      } else if (toDelete.has(path)) {
+        console.error(`Trashing and logging: ${path}`);
+        const fullPath = join(homedir(), path);
+        await trash(fullPath);
+
+        await counterLog.record(fullPath);
+      } else {
+        switch (onUnknown) {
+          case "error-and-continue": {
+            console.error(`Unknown path: ${path}`);
+            exitCode = 1;
+            break;
+          }
+          // biome-ignore lint/suspicious/noFallthroughSwitchClause: TODO: https://github.com/biomejs/website/issues/49
+          case "error-and-abort": {
+            console.error(`Unknown path: ${path}`);
+            exit(1);
+          }
+          case "warn": {
+            console.warn(`Unknown path: ${path}`);
+            break;
+          }
+          case "ignore": {
+            console.warn(`Ignoring: ${path}`);
+            break;
+          }
+          default: {
+            throw new Error("Internal error");
+          }
+        }
+      }
+    }
+
+    exit(exitCode);
+  },
+});
+
+await run(binary(app), process.argv);
