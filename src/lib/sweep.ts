@@ -30,6 +30,9 @@ const { parse } = json5;
 
 export async function sweep(options?: {
   onUnknown?: OnUnknownBehaviour;
+  // Use a custom callback to trash files.
+  // Note: this callback may be called multiple times with any number of paths each, not necessarily with all paths at once.
+  trashCallback?: (paths: string[]) => Promise<void>;
 }): Promise<void> {
   lock();
 
@@ -104,7 +107,11 @@ Here's an example:
     } else if (toDelete.has(path)) {
       console.error(`Trashing and logging: ${path}`);
       const fullPath = join(homedir(), path);
-      await trash(fullPath);
+      if (options?.trashCallback) {
+        await options.trashCallback([fullPath]);
+      } else {
+        await trash(fullPath);
+      }
 
       await counterLog.record(fullPath);
     } else {
