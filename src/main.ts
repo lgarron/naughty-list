@@ -43,10 +43,49 @@ const app = command({
     const onUnknown = onUnknownRaw ?? ON_UNKNOWN_DEFAULT_BEHAVIOUR;
 
     assert(xdgConfig);
-    const configPath = join(xdgConfig, NAUGHTY_LIST, `${NAUGHTY_LIST}.json5`);
+    const configFilePath = join(
+      xdgConfig,
+      NAUGHTY_LIST,
+      `${NAUGHTY_LIST}.json5`,
+    );
 
     const config: NaughtyListConfig = await (async () => {
-      const config = parse(await readFile(configPath, "utf-8"));
+      const configJSONString = await (async () => {
+        try {
+          return await readFile(configFilePath, "utf-8");
+          // biome-ignore lint/suspicious/noExplicitAny: Required by TS
+        } catch (e: any) {
+          if ((e as { code: string }).code === "ENOENT") {
+            console.error(
+              `A configuration file is required. Please create one at: ${configFilePath}
+
+Here's an example:
+
+{
+  "$schema": "https://raw.githubusercontent.com/lgarron/naughty-list/44e8a279d266950f310edef10ad56b6dfb5c46eb/src/schema.json",
+  "paths": {
+    "ignore": [
+      ".cache",
+      ".config",
+      ".DS_Store", // macOS
+      ".local",
+      ".ssh",
+      ".Trash", // macOS
+      ".vscode", // https://github.com/microsoft/vscode/issues/3884
+    ],
+    "delete": [
+      ".docker",
+      ".npm",
+    ]
+  }
+}
+`,
+            );
+          }
+          exit(1);
+        }
+      })();
+      const config = parse(configJSONString);
       {
         const validationResult = validate(config, schema);
         if (!validationResult.valid) {
