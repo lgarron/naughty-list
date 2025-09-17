@@ -1,7 +1,5 @@
 #!/usr/bin/env -S bun run --
 
-import("../lib/lockfile");
-
 import { binary, command, oneOf, option, optional, run } from "cmd-ts-too";
 import {
   ON_UNKNOWN_BEHAVIOURS,
