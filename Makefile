@@ -52,7 +52,7 @@ publish:
 	npm publish
 
 .PHONY: prepublishOnly
-prepublishOnly: lint test clean build
+prepublishOnly: clean lint test build
 
 .PHONY: clean
 clean:
