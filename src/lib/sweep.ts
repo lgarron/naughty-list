@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { exit } from "node:process";
 import json5 from "json5";
 import { validate } from "jsonschema";
+import { PrintableShellCommand } from "printable-shell-command";
 import trash from "trash";
 import { xdgConfig } from "xdg-basedir";
 import { NAUGHTY_LIST } from "./binary-name";
@@ -30,9 +31,6 @@ const { parse } = json5;
 
 export async function sweep(options?: {
   onUnknown?: OnUnknownBehaviour;
-  // Use a custom callback to trash files.
-  // Note: this callback may be called multiple times with any number of paths each, not necessarily with all paths at once.
-  trashCallback?: (paths: string[]) => Promise<void>;
 }): Promise<void> {
   lock();
 
@@ -107,8 +105,12 @@ Here's an example:
     } else if (toDelete.has(path)) {
       console.error(`Trashing and logging: ${path}`);
       const fullPath = join(homedir(), path);
-      if (options?.trashCallback) {
-        await options.trashCallback([fullPath]);
+      if (config.trashCommandPrefix) {
+        const [command, ...args] = config.trashCommandPrefix;
+        await new PrintableShellCommand(command, [
+          ...args,
+          fullPath,
+        ]).shellOutNode();
       } else {
         await trash(fullPath);
       }

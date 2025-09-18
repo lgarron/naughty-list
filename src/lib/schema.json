@@ -20,6 +20,12 @@
         }
       },
       "type": "object"
+    },
+    "trashCommandPrefix": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
     }
   },
   "required": ["paths"],
