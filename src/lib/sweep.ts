@@ -110,7 +110,7 @@ Here's an example:
         await new PrintableShellCommand(command, [
           ...args,
           fullPath,
-        ]).shellOutNode();
+        ]).shellOut();
       } else {
         await trash(fullPath);
       }
