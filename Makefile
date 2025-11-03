@@ -2,11 +2,11 @@
 build: build-js build-types
 
 .PHONY: build-js
-build-js:
+build-js: setup
 	bun run ./script/build-js.ts
 
 .PHONY: build-types
-build-types:
+build-types: setup
 	bun x typescript --project ./tsconfig.build-types.json
 
 .PHONY: run
