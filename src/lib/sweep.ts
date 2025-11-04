@@ -3,16 +3,19 @@ import { readdir, readFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { exit } from "node:process";
-import json5 from "json5";
+import { default as json5 } from "json5";
 import { validate } from "jsonschema";
 import { PrintableShellCommand } from "printable-shell-command";
-import trash from "trash";
+import { default as trash } from "trash";
 import { xdgConfig } from "xdg-basedir";
 import { NAUGHTY_LIST } from "./binary-name";
 import { CounterLog } from "./CounterLog";
 import { lock } from "./lockfile";
 import type { NaughtyListConfig } from "./schema";
 import { default as schema } from "./schema.json" with { type: "json" };
+
+// Workaround for bad exports in `json5`: https://github.com/json5/json5/issues/240
+const { parse } = json5;
 
 export const ON_UNKNOWN_BEHAVIOURS = [
   "error-and-continue",
@@ -25,9 +28,6 @@ export type OnUnknownBehaviour = (typeof ON_UNKNOWN_BEHAVIOURS)[number];
 
 export const ON_UNKNOWN_DEFAULT_BEHAVIOUR: (typeof ON_UNKNOWN_BEHAVIOURS)[number] =
   "error-and-continue";
-
-// Workaround for bad exports in `json5`.
-const { parse } = json5;
 
 export async function sweep(options?: {
   onUnknown?: OnUnknownBehaviour;
