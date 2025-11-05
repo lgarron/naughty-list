@@ -1,6 +1,6 @@
 {
 	"name": "naughty-list",
-	"version": "0.3.1",
+	"version": "0.3.2-dev",
 	"author": "Lucas <code@garron.net>",
 	"type": "module",
 	"bin": {
