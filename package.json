@@ -10,6 +10,9 @@
 		".": {
 			"types": "./dist/lib/naughty-list/types/index.d.ts",
 			"import": "./dist/lib/naughty-list/index.js"
+		},
+		"./bin/run": {
+			"import": "./dist/bin/naughty-list/main.js"
 		}
 	},
 	"dependencies": {
