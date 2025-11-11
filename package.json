@@ -3,6 +3,7 @@
 	"version": "1.0.2-dev",
 	"author": "Lucas <code@garron.net>",
 	"type": "module",
+	"license": "MIT",
 	"bin": {
 		"naughty-list": "dist/bin/naughty-list/main.js"
 	},
