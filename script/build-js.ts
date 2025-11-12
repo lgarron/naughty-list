@@ -3,12 +3,6 @@ import { build } from "esbuild";
 
 await build({
   ...es2022Lib(),
-  entryPoints: ["./src/bin/main.ts"],
-  outdir: "dist/bin/naughty-list",
-});
-
-await build({
-  ...es2022Lib(),
-  entryPoints: ["./src/lib/index.ts"],
-  outdir: "dist/lib/naughty-list",
+  entryPoints: ["./src/bin/main.ts", "./src/lib/index.ts"],
+  outdir: "dist/naughty-list",
 });

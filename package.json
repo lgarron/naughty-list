@@ -5,15 +5,15 @@
 	"type": "module",
 	"license": "MIT",
 	"bin": {
-		"naughty-list": "dist/bin/naughty-list/main.js"
+		"naughty-list": "dist/naughty-list/bin/main.js"
 	},
 	"exports": {
 		".": {
-			"types": "./dist/lib/naughty-list/types/index.d.ts",
-			"import": "./dist/lib/naughty-list/index.js"
+			"types": "./dist/naughty-list/types/index.d.ts",
+			"import": "./dist/naughty-list/lib/index.js"
 		},
 		"./bin/run": {
-			"import": "./dist/bin/naughty-list/main.js"
+			"import": "./dist/naughty-list/bin/main.js"
 		}
 	},
 	"dependencies": {

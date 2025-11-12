@@ -41,7 +41,7 @@ test-bun:
 
 .PHONY: test-build
 test-build: build
-	node ./dist/bin/naughty-list/main.js --help
+	node ./dist/naughty-list/bin/main.js --help
 
 .PHONY: setup
 setup:
