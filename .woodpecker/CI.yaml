@@ -1,0 +1,18 @@
+when:
+  - event: push
+    branch: main
+
+steps:
+  - name: build
+    image: node:25
+    commands:
+      - npm install --global bun
+      - make setup
+      - make build
+  - name: test
+    image: node:25
+    commands:
+      - npm install --global bun
+      - make setup
+      - make lint
+      - make test
