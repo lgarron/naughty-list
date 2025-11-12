@@ -1,47 +1,38 @@
-import { default as assert } from "node:assert";
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
-import { writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { existsSync } from "node:fs";
 import { ErgonomicDate } from "ergonomic-date";
-import { xdgData } from "xdg-basedir";
+import { Path } from "path-class";
+import "path-class/sync";
 import { NAUGHTY_LIST } from "./binary-name";
 import { lock } from "./lockfile";
 
-assert(xdgData);
-const logRootPath = join(xdgData, NAUGHTY_LIST);
+const logRootPath = Path.xdg.data.join(NAUGHTY_LIST);
 
 type CounterJSON = Record<string, string[]>;
 
 export class CounterLog {
-  counterFilePath: string;
+  counterFilePath: Path;
   json: CounterJSON;
   constructor() {
     lock();
 
     const ergonomicDate = new ErgonomicDate();
     // Initialized here to keep a stable path per instance.
-    this.counterFilePath = join(
-      logRootPath,
+    this.counterFilePath = logRootPath.join(
       `${ergonomicDate.localYearMonth}.${NAUGHTY_LIST}.json`,
     );
 
     console.log("Recording to:", this.counterFilePath);
 
-    if (existsSync(this.counterFilePath)) {
-      this.json = JSON.parse(readFileSync(this.counterFilePath, "utf-8"));
+    if (existsSync(this.counterFilePath.path)) {
+      this.json = this.counterFilePath.readJSONSync();
     } else {
-      mkdirSync(dirname(this.counterFilePath), { recursive: true });
       this.json = {};
       this.flush();
     }
   }
 
   async flush() {
-    await writeFile(
-      this.counterFilePath,
-      JSON.stringify(this.json, null, "  "),
-      "utf-8",
-    );
+    await this.counterFilePath.writeJSON(this.json);
   }
 
   async record(key: string) {

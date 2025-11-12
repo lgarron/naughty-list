@@ -1,13 +1,9 @@
-import { default as assert } from "node:assert";
-import { readdir, readFile } from "node:fs/promises";
-import { homedir } from "node:os";
-import { join } from "node:path";
 import { exit } from "node:process";
 import { default as json5 } from "json5";
 import { validate } from "jsonschema";
+import { Path } from "path-class";
 import { PrintableShellCommand } from "printable-shell-command";
 import { default as trash } from "trash";
-import { xdgConfig } from "xdg-basedir";
 import { NAUGHTY_LIST } from "./binary-name";
 import { CounterLog } from "./CounterLog";
 import { lock } from "./lockfile";
@@ -37,13 +33,15 @@ export async function sweep(options?: {
   // TODO: handle the default at parse-time.
   const onUnknown = options?.onUnknown ?? ON_UNKNOWN_DEFAULT_BEHAVIOUR;
 
-  assert(xdgConfig);
-  const configFilePath = join(xdgConfig, NAUGHTY_LIST, `${NAUGHTY_LIST}.json5`);
+  const configFilePath = Path.xdg.config.join(
+    NAUGHTY_LIST,
+    `${NAUGHTY_LIST}.json5`,
+  );
 
   const config: NaughtyListConfig = await (async () => {
-    const configJSONString = await (async () => {
+    const configString = await (async () => {
       try {
-        return await readFile(configFilePath, "utf-8");
+        return await configFilePath.readText();
         // biome-ignore lint/suspicious/noExplicitAny: Required by TS
       } catch (e: any) {
         if ((e as { code: string }).code === "ENOENT") {
@@ -76,16 +74,16 @@ Here's an example:
         exit(1);
       }
     })();
-    const config = parse(configJSONString);
+    const configJSON = parse(configString);
     {
-      const validationResult = validate(config, schema);
+      const validationResult = validate(configJSON, schema);
       if (!validationResult.valid) {
         console.error(validationResult.toString());
         exit(1);
       }
     }
     // TODO: is there a way to return only the validated subset?
-    return config;
+    return configJSON;
   })();
 
   const toIgnore = new Set(config.paths.ignore);
@@ -95,7 +93,7 @@ Here's an example:
   const counterLog = new CounterLog();
 
   // We have to manually iterate through all the home dir entries, because `node`'s built-in `glob()` is super borked: https://github.com/nodejs/node/issues/56321
-  for (const path of await readdir(homedir())) {
+  for (const path of await Path.homedir.readDir()) {
     if (!path.startsWith(".")) {
       continue;
     }
@@ -104,7 +102,7 @@ Here's an example:
       console.info(`Ignoring: ${path}`);
     } else if (toDelete.has(path)) {
       console.error(`Trashing and logging: ${path}`);
-      const fullPath = join(homedir(), path);
+      const fullPath = Path.homedir.join(path);
       if (config.trashCommandPrefix) {
         const [command, ...args] = config.trashCommandPrefix;
         await new PrintableShellCommand(command, [
@@ -112,10 +110,10 @@ Here's an example:
           fullPath,
         ]).shellOut();
       } else {
-        await trash(fullPath);
+        await trash(fullPath.path);
       }
 
-      await counterLog.record(fullPath);
+      await counterLog.record(fullPath.path);
     } else {
       switch (onUnknown) {
         case "error-and-continue": {
