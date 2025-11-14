@@ -1,6 +1,6 @@
 {
 	"name": "naughty-list",
-	"version": "1.0.3-dev",
+	"version": "1.0.3",
 	"author": "Lucas <code@garron.net>",
 	"type": "module",
 	"license": "MIT",
