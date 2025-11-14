@@ -21,7 +21,7 @@ export class CounterLog {
       `${ergonomicDate.localYearMonth}.${NAUGHTY_LIST}.json`,
     );
 
-    console.log("Recording to:", this.counterFilePath);
+    console.log(`Recording to: ${this.counterFilePath}`);
 
     if (existsSync(this.counterFilePath.path)) {
       this.json = this.counterFilePath.readJSONSync();
