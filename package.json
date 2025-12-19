@@ -1,12 +1,14 @@
 {
   "name": "naughty-list",
   "version": "1.0.4-dev",
+  "description": "Sweep dotfile pollution in your home dir.",
   "author": "Lucas <code@garron.net>",
-  "type": "module",
   "license": "MIT",
-  "bin": {
-    "naughty-list": "dist/naughty-list/bin/main.js"
+  "repository": {
+    "type": "git",
+    "url": "git+https://codeberg.org/lgarron/naughty-list.git"
   },
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/naughty-list/types/index.d.ts",
@@ -15,6 +17,9 @@
     "./bin/run": {
       "import": "./dist/naughty-list/bin/main.js"
     }
+  },
+  "bin": {
+    "naughty-list": "dist/naughty-list/bin/main.js"
   },
   "dependencies": {
     "cmd-ts-too": "0.15.3",
@@ -35,6 +40,10 @@
     "typescript": "^5.9.3",
     "typescript-json-schema": "^0.65.1"
   },
+  "files": [
+    "./dist/",
+    "./src/"
+  ],
   "scripts": {
     "prepublishOnly": "make prepublishOnly"
   }
