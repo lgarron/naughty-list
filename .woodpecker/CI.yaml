@@ -9,6 +9,7 @@ steps:
       - npm install --global bun@1.3.2
       - make setup
       - make build
+      - make check-package.json
   - name: test
     image: node:25
     commands:

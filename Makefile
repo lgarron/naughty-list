@@ -1,6 +1,9 @@
 .PHONY: build
 build: build-js build-types
 
+.PHONY: check
+check: lint test build check-package.json
+
 .PHONY: build-js
 build-js: setup
 	bun run ./script/build-js.ts
@@ -23,6 +26,10 @@ lint-biome: setup
 .PHONY: lint-tsc
 lint-tsc: setup
 	bun x typescript --noEmit --project .
+
+.PHONY: check-package.json
+check-package.json: build
+	bun x --package @cubing/dev-config package.json check
 
 .PHONY: format
 format: setup
@@ -52,7 +59,7 @@ publish:
 	npm publish
 
 .PHONY: prepublishOnly
-prepublishOnly: clean lint test build
+prepublishOnly: clean check build
 
 .PHONY: clean
 clean:
