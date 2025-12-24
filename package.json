@@ -22,7 +22,8 @@
     "naughty-list": "dist/naughty-list/bin/main.js"
   },
   "dependencies": {
-    "cmd-ts-too": "0.15.3",
+    "@optique/core": "^0.8.2",
+    "@optique/run": "^0.8.2",
     "ergonomic-date": "0.1.1",
     "esbuild": "^0.25.12",
     "json5": "^2.2.3",
