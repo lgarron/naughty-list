@@ -29,7 +29,7 @@
     "json5": "^2.2.3",
     "jsonschema": "^1.5.0",
     "lockfile-mutex": ">=0.3.4",
-    "path-class": ">=0.7.0",
+    "path-class": ">=0.11.2",
     "printable-shell-command": ">=2.3.2",
     "trash": "^10.0.0"
   },
