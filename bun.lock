@@ -349,11 +349,7 @@
 
     "yn": ["yn@3.1.1", "", {}, "sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q=="],
 
-    "@cubing/dev-config/path-class": ["path-class@0.10.8", "", { "dependencies": { "xdg-basedir": "^5.1.0" }, "peerDependencies": { "@types/node": ">=24.7.1" } }, "sha512-grm0+XkLIZLH33wkK6aJKaWYPzLEYcDKUvRz8VEaP6Sk/BaxT72PCgrLuUP8/Xh4RZvnyj1YPBYER3BPBDHksw=="],
-
     "@cubing/dev-config/printable-shell-command": ["printable-shell-command@3.0.2", "", { "dependencies": { "path-class": ">=0.10.3", "type-fest": ">=5.1.0" }, "peerDependencies": { "@types/bun": "^1.2.20", "@types/node": "^24.2.0" } }, "sha512-1xGU0qHI0kvWbmbXH4TO3AVME/RbS4z2YuBlX47j8Xuc3VZYpPB3nvItKTtHJZz7T4TqWCQvi8A4kMWHluf4pA=="],
-
-    "lockfile-mutex/path-class": ["path-class@0.7.0", "", { "dependencies": { "@types/node": "^24.7.1", "xdg-basedir": "^5.1.0" } }, "sha512-VPVraKWpbzRbqiigXp0fYV3O1hywUEJYumD7ibMHufwZfQTs1CkaXfKFdm14B8DStWZxj3Pd2GDKCLxDTVSjkA=="],
 
     "mount-point/@sindresorhus/df": ["@sindresorhus/df@1.0.1", "", {}, "sha512-1Hyp7NQnD/u4DSxR2DGW78TF9k7R0wZ8ev0BpMAIzA6yTQSHqNb5wTuvtcPYf4FWbVse2rW7RgDsyL8ua2vXHw=="],
 
