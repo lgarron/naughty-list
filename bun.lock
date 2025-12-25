@@ -13,7 +13,7 @@
         "jsonschema": "^1.5.0",
         "lockfile-mutex": ">=0.3.4",
         "path-class": ">=0.11.2",
-        "printable-shell-command": ">=2.3.2",
+        "printable-shell-command": "^4.0.4",
         "trash": "^10.0.0",
       },
       "devDependencies": {
@@ -281,7 +281,7 @@
 
     "pinkie-promise": ["pinkie-promise@2.0.1", "", { "dependencies": { "pinkie": "^2.0.0" } }, "sha512-0Gni6D4UcLTbv9c57DfxDGdr41XfgUjqWZu492f0cIGr16zDU06BWP/RAEvOuo7CQ0CNjHaLlM59YJJFm3NWlw=="],
 
-    "printable-shell-command": ["printable-shell-command@2.3.2", "", { "dependencies": { "path-class": ">=0.6.1", "type-fest": ">=5.1.0" }, "optionalDependencies": { "@types/bun": "^1.2.20", "@types/node": "^24.2.0" } }, "sha512-ugY8+l1C1qWuo5OIcm841JT0LIqDIVYDQwymf9zecx+ukp1KCh0UUXL7HMnBEl+Ej7jI7qQXHJ0TwzQeSDR7Dw=="],
+    "printable-shell-command": ["printable-shell-command@4.0.4", "", { "dependencies": { "@types/node": ">=25.0.3", "path-class": ">=0.10.3" } }, "sha512-0wUqzs668cD5Y6/SzwDyuWToh4cFe2zIN3ijCFLvecLONiP7OQMX1Vzb0Sbsczwiz/ZdDFTze+kFxsgWSL3I+Q=="],
 
     "pump": ["pump@3.0.3", "", { "dependencies": { "end-of-stream": "^1.1.0", "once": "^1.3.1" } }, "sha512-todwxLMY7/heScKmntwQG8CXVkWUOdYxIvY2s0VWAAMh/nd8SoYiRaKjlr7+iCs984f2P8zvrfWcDDYVb73NfA=="],
 
@@ -357,7 +357,7 @@
 
     "mount-point/@sindresorhus/df": ["@sindresorhus/df@1.0.1", "", {}, "sha512-1Hyp7NQnD/u4DSxR2DGW78TF9k7R0wZ8ev0BpMAIzA6yTQSHqNb5wTuvtcPYf4FWbVse2rW7RgDsyL8ua2vXHw=="],
 
-    "printable-shell-command/path-class": ["path-class@0.7.0", "", { "dependencies": { "@types/node": "^24.7.1", "xdg-basedir": "^5.1.0" } }, "sha512-VPVraKWpbzRbqiigXp0fYV3O1hywUEJYumD7ibMHufwZfQTs1CkaXfKFdm14B8DStWZxj3Pd2GDKCLxDTVSjkA=="],
+    "printable-shell-command/@types/node": ["@types/node@25.0.3", "", { "dependencies": { "undici-types": "~7.16.0" } }, "sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA=="],
 
     "typescript-json-schema/@types/node": ["@types/node@18.19.130", "", { "dependencies": { "undici-types": "~5.26.4" } }, "sha512-GRaXQx6jGfL8sKfaIDD6OupbIHBr9jv7Jnaml9tB7l4v068PAOXqfcujMMo5PhbIs6ggR1XODELqahT2R8v0fg=="],
 
