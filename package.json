@@ -30,7 +30,7 @@
     "jsonschema": "^1.5.0",
     "lockfile-mutex": ">=0.3.7",
     "path-class": ">=0.11.2",
-    "printable-shell-command": "^4.0.4",
+    "printable-shell-command": ">=4.0.4",
     "trash": "^10.0.0"
   },
   "devDependencies": {
