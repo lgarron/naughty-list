@@ -1,7 +1,7 @@
-import { existsSync } from "node:fs";
 import { ErgonomicDate } from "ergonomic-date";
 import { Path } from "path-class";
 import "path-class/sync";
+import { PathSync } from "path-class/sync";
 import { NAUGHTY_LIST } from "./binary-name";
 import { lock } from "./lockfile";
 
@@ -10,20 +10,20 @@ const logRootPath = Path.xdg.data.join(NAUGHTY_LIST);
 type CounterJSON = Record<string, string[]>;
 
 export class CounterLog {
-  counterFilePath: Path;
+  counterFilePath: PathSync;
   json: CounterJSON;
   constructor() {
     lock();
 
     const ergonomicDate = new ErgonomicDate();
     // Initialized here to keep a stable path per instance.
-    this.counterFilePath = logRootPath.join(
-      `${ergonomicDate.localYearMonth}.${NAUGHTY_LIST}.json`,
+    this.counterFilePath = new PathSync(
+      logRootPath.join(`${ergonomicDate.localYearMonth}.${NAUGHTY_LIST}.json`),
     );
 
     console.log(`Recording to: ${this.counterFilePath}`);
 
-    if (existsSync(this.counterFilePath.path)) {
+    if (this.counterFilePath.existsSync()) {
       this.json = this.counterFilePath.readJSONSync();
     } else {
       this.json = {};
