@@ -1,3 +1,23 @@
+# 🏔️ Moved to Codeberg 🏔️
+
+This repo is now maintained at:
+
+<span style="font-size: 200%"><a href="https://codeberg.org/lgarron/naughty-list">https://codeberg.org/lgarron/naughty-list</a></span>
+
+Original README contents are below.
+
+<br>
+<br>
+<br>
+<br>
+
+--------
+
+<br>
+<br>
+<br>
+<br>
+
 # `naughty-list`
 
 Sweep dotfile pollution in your home dir.
